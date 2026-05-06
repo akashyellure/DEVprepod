@@ -1,0 +1,24 @@
+name : "Validate Production Deployment"
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'deploy/prod/**'
+      - '.github/workflow/validate-prod.yml'
+jobs:
+  validate: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Validate Deployment Files
+        run: |
+          echo "Validating deployment files..."
+          # Add your validation commands here, for example:
+          # - Check for required files
+          if [ ! -f deploy/prod/config.yaml ]; then
+            echo "Error: config.yaml is missing in deploy/prod/"
+            exit 1
+          fi
+          echo "All required files are present."
